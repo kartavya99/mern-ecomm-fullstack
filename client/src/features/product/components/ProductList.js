@@ -242,29 +242,40 @@ function classNames(...classes) {
 export default function ProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState({});
   const dispatch = useDispatch();
   const products = useSelector(selectALlProducts);
 
   const handleFilter = (e, section, option) => {
-    const newFilter = { ...filter, [section.id]: option.value };
-    console.log(newFilter);
+    console.log(e.target.checked);
+    const newFilter = { ...filter };
+    //TODO : on server support multiple categories
+    if (e.target.checked) {
+      if (newFilter[section.id]) {
+        newFilter[section.id].push(option.value);
+      } else {
+        newFilter[section.id] = [option.value];
+      }
+    } else {
+      const index = newFilter[section.id].findIndex(
+        (el) => el === option.value
+      );
+      newFilter[section.id].splice(index, 1);
+    }
+    console.log({ newFilter });
     setFilter(newFilter);
-
-    dispatch(fetchProductsByFiltersAsync(newFilter));
-    console.log(section.id, option.value);
   };
 
   const handleSort = (e, option) => {
-    const newFilter = { ...filter, _sort: option.sort, _order: option.order };
-    console.log(newFilter);
-    setFilter(newFilter);
+    const newSort = { ...sort, _sort: option.sort, _order: option.order };
+    console.log({ newSort });
 
-    dispatch(fetchProductsByFiltersAsync(newFilter));
+    setSort(newSort);
   };
 
   useEffect(() => {
-    dispatch(fetchAllProductAsync());
-  }, [dispatch]);
+    dispatch(fetchProductsByFiltersAsync({ filter, sort }));
+  }, [dispatch, filter, sort]);
 
   return (
     <div>
