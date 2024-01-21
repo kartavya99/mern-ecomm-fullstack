@@ -13,7 +13,10 @@ import {
   selectLoggedInUser,
   updateUserAsync,
 } from "../features/auth/authSlice";
-import { createOrderAsync } from "../features/order/orderSlice";
+import {
+  createOrderAsync,
+  selectCurrentOrder,
+} from "../features/order/orderSlice";
 
 const CheckoutPage = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -28,6 +31,7 @@ const CheckoutPage = () => {
   } = useForm();
 
   const user = useSelector(selectLoggedInUser);
+  const currentOrder = useSelector(selectCurrentOrder);
   const totalAmount = items.reduce(
     (amount, item) => item.price * item.quantity + amount,
     0
@@ -43,7 +47,7 @@ const CheckoutPage = () => {
   };
 
   const handleAddress = (e) => {
-    setSelectedAddress(user.address[e.target.value]);
+    setSelectedAddress(user.addresses[e.target.value]);
   };
 
   const handlePayment = (e) => {
@@ -51,15 +55,21 @@ const CheckoutPage = () => {
   };
 
   const handleOrder = (e) => {
-    const order = {
-      items,
-      totalAmount,
-      totalItems,
-      user,
-      paymentMethod,
-      selectedAddress,
-    };
-    dispatch(createOrderAsync(order));
+    if (selectedAddress && paymentMethod) {
+      const order = {
+        items,
+        totalAmount,
+        totalItems,
+        user,
+        paymentMethod,
+        selectedAddress,
+        status: "pending", // other status can be delivered, received
+      };
+      dispatch(createOrderAsync(order));
+    } else {
+      // TODO: we can use proper messaging popup here
+      alert("Enter Address and Payment method");
+    }
     //TODO: redirect to order-success page
     //TODO: clear cart after order
     //TODO: on server change the stock number if items
@@ -68,9 +78,16 @@ const CheckoutPage = () => {
   return (
     <>
       {!items.length && <Navigate to="/" replace={true}></Navigate>}
+      {currentOrder && (
+        <Navigate
+          to={`/order-success/${currentOrder.id}`}
+          replace={true}
+        ></Navigate>
+      )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           <div className="lg:col-span-3">
+            {/* This form is for address */}
             <form
               className="bg-white px-5 py-12 mt-12 mb-12"
               noValidate
@@ -110,6 +127,9 @@ const CheckoutPage = () => {
                           id="name"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.name && (
+                          <p className="tex-red-500">{errors.name.message}</p>
+                        )}
                       </div>
                     </div>
 
@@ -147,6 +167,9 @@ const CheckoutPage = () => {
                           type="email"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.email && (
+                          <p className="tex-red-500">{errors.email.message}</p>
+                        )}
                       </div>
                     </div>
 
@@ -166,6 +189,9 @@ const CheckoutPage = () => {
                           type="tel"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.phone && (
+                          <p className="tex-red-500">{errors.phone.message}</p>
+                        )}
                       </div>
                       {/* <div className="mt-2">
                         <select
@@ -197,6 +223,9 @@ const CheckoutPage = () => {
                           id="street"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.street && (
+                          <p className="tex-red-500">{errors.street.message}</p>
+                        )}
                       </div>
                     </div>
 
@@ -216,6 +245,9 @@ const CheckoutPage = () => {
                           id="city"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.city && (
+                          <p className="tex-red-500">{errors.city.message}</p>
+                        )}
                       </div>
                     </div>
 
@@ -235,6 +267,9 @@ const CheckoutPage = () => {
                           id="state"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.state && (
+                          <p className="tex-red-500">{errors.state.message}</p>
+                        )}
                       </div>
                     </div>
 
@@ -254,6 +289,11 @@ const CheckoutPage = () => {
                           id="pinCode"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                        {errors.pinCode && (
+                          <p className="tex-red-500">
+                            {errors.pinCode.message}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
