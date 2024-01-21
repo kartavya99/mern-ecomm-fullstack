@@ -9,7 +9,7 @@ export default function Singup() {
   const {
     register,
     handleSubmit,
-    watch,
+
     formState: { errors },
   } = useForm();
 
