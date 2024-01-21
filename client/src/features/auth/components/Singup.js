@@ -42,6 +42,7 @@ export default function Singup() {
                   createUserAsync({
                     email: data.email,
                     password: data.password,
+                    addresses: [],
                   })
                 )
               )}
