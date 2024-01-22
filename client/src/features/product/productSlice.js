@@ -107,7 +107,7 @@ export const productSlice = createSlice({
   },
 });
 
-export const { increment } = productSlice.actions;
+// export const {  } = productSlice.actions;
 
 export const selectALlProducts = (state) => state.product.products;
 export const selectALlBrands = (state) => state.product.brands;

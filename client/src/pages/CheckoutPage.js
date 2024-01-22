@@ -1,6 +1,4 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -319,7 +317,7 @@ const CheckoutPage = () => {
                     Choose from existing address
                   </p>
 
-                  <ul role="list">
+                  <ul>
                     {user.addresses.map((address, index) => (
                       <li
                         key={index}

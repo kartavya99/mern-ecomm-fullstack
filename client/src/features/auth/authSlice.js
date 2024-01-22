@@ -40,7 +40,7 @@ export const checkUserAsync = createAsyncThunk(
   }
 );
 
-export const counterSlice = createSlice({
+export const authSlice = createSlice({
   name: "user",
   initialState,
 
@@ -90,6 +90,6 @@ export const counterSlice = createSlice({
 export const selectLoggedInUser = (state) => state.auth.loggedInUser;
 export const selectError = (state) => state.auth.error;
 
-export const { increment } = counterSlice.actions;
+// export const {  } = authSlice.actions;
 
-export default counterSlice.reducer;
+export default authSlice.reducer;
