@@ -10,6 +10,9 @@ export default function UserProfile() {
   const user = useSelector(selectUserInfo);
   const [selectedEditIndex, setSelectedEditIndex] = useState(-1);
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
+
+  //TODO: add payment section through backend.
+
   const {
     register,
     handleSubmit,
@@ -266,6 +269,7 @@ export default function UserProfile() {
             <div>
               {selectedEditIndex === index ? (
                 <form
+                  key={address.index}
                   className="bg-white px-5 py-12 mt-12 mb-12"
                   noValidate
                   onSubmit={handleSubmit((data, index) => {

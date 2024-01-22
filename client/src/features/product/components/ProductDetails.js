@@ -206,7 +206,7 @@ export default function ProductDetails() {
                           <span
                             aria-hidden="true"
                             className={classNames(
-                              color.class,
+                              color.selectedClass,
                               "h-8 w-8 rounded-full border border-black border-opacity-10"
                             )}
                           />

@@ -23,7 +23,7 @@ const navigation = [
 const userNavigation = [
   { name: "My Profile", link: "/profile" },
   { name: "My Orders", link: "/orders" },
-  { name: "Sign out", link: "/login" },
+  { name: "Sign out", link: "/logout" },
 ];
 
 function classNames(...classes) {
@@ -213,10 +213,9 @@ const Navbar = ({ children }) => {
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (
-                      <Disclosure.Button>
+                      <Disclosure.Button key={item.name}>
                         <Link
                           to={item.link}
-                          key={item.name}
                           as="a"
                           className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                         >

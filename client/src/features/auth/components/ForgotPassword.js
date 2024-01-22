@@ -1,24 +1,19 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { checkUserAsync, selectError, selectLoggedInUser } from "../authSlice";
+import { useDispatch } from "react-redux";
+import { checkUserAsync } from "../authSlice";
 import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-export default function Login() {
-  const dispatch = useDispatch();
-  const error = useSelector(selectError);
-  const user = useSelector(selectLoggedInUser);
+export default function ForgotPassword() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
   return (
     <div>
       <>
-        {user && <Navigate to="/" replace={true}></Navigate>}
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
@@ -27,20 +22,15 @@ export default function Login() {
               alt="Your Company"
             />
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Sign in to your account
+              Enter your email to reset password
             </h2>
           </div>
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form
               noValidate
-              onSubmit={handleSubmit((data) =>
-                dispatch(
-                  checkUserAsync({
-                    email: data.email,
-                    password: data.password,
-                  })
-                )
+              onSubmit={handleSubmit(
+                (data) => console.log(data) //TODO: implement this functionality in backend
               )}
               className="space-y-6"
             >
@@ -68,7 +58,7 @@ export default function Login() {
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor="password"
@@ -78,7 +68,7 @@ export default function Login() {
                   </label>
                   <div className="text-sm">
                     <Link
-                      to="/forgot-password"
+                      to="#"
                       className="font-semibold text-indigo-600 hover:text-indigo-500"
                     >
                       Forgot password?
@@ -97,25 +87,25 @@ export default function Login() {
                   <p className="text-red-500"> {errors?.password?.message}</p>
                 </div>
                 {error && <p className="text-red-500"> {error.message}</p>}
-              </div>
+              </div> */}
 
               <div>
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign in
+                  Send Email
                 </button>
               </div>
             </form>
 
             <p className="mt-10 text-center text-sm text-gray-500">
-              Not a member?{" "}
+              Send me back to Login?{" "}
               <Link
-                to="/signup"
+                to="/login"
                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
               >
-                Create an Account
+                Login{" "}
               </Link>
             </p>
           </div>
