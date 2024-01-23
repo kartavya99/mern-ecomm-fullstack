@@ -11,7 +11,6 @@ import {
   updateProductAsync,
 } from "../../product/productSlice";
 import { useParams } from "react-router-dom";
-import { fetchProductById } from "../../product/productApi";
 
 const ProductForm = () => {
   const brands = useSelector(selectALlBrands);
