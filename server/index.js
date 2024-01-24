@@ -1,10 +1,12 @@
 const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 const productsRouter = require("./routes/Products");
 const brandsRouter = require("./routes/Brands");
 const categoriesRouter = require("./routes/Categories");
-const cors = require("cors");
+const usersRouter = require("./routes/Users");
+const authRouter = require("./routes/Auth");
 
 //middlewares
 server.use(
@@ -16,6 +18,8 @@ server.use(express.json()); // to parse req.body
 server.use("/products", productsRouter.router);
 server.use("/brands", brandsRouter.router);
 server.use("/categories", categoriesRouter.router);
+server.use("/users", usersRouter.router);
+server.use("/auth", authRouter.router);
 
 main().catch((err) => console.log(err));
 
