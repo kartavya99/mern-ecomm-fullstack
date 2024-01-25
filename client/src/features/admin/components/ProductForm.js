@@ -326,7 +326,9 @@ const ProductForm = () => {
                   >
                     <option value="">--Choose Brand--</option>
                     {brands.map((brand) => (
-                      <option value={brand.label}>{brand.value}</option>
+                      <option jey={brand.value} value={brand.label}>
+                        {brand.value}
+                      </option>
                     ))}
                   </select>
                 </div>

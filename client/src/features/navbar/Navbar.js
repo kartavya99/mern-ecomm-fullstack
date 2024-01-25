@@ -86,7 +86,7 @@ const Navbar = ({ children }) => {
                         </button>
                       </Link>
                       {items.length > 0 && (
-                        <span class="inline-flex items-center rounded-md mb-7 -ml-1 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                        <span className="inline-flex items-center rounded-md mb-7 -ml-1 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                           {items.length}
                         </span>
                       )}
@@ -205,7 +205,7 @@ const Navbar = ({ children }) => {
                       </button>
                     </Link>
                     {items.length > 0 && (
-                      <span class="inline-flex items-center rounded-md mb-7 -ml-1 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                      <span className="inline-flex items-center rounded-md mb-7 -ml-1 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                         {items.length}
                       </span>
                     )}

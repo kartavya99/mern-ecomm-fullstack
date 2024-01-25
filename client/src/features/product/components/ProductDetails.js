@@ -59,7 +59,7 @@ export default function ProductDetails() {
   const handleCart = (e) => {
     e.preventDefault();
     if (items.findIndex((item) => item.product.id === product.id) < 0) {
-      console.log({ items, product });
+      // console.log({ items, product });
       const newItem = {
         product: product.id,
         quantity: 1,
@@ -73,7 +73,6 @@ export default function ProductDetails() {
     }
   };
 
-  console.log({ items });
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.id));
   }, [dispatch, params.id]);
@@ -89,7 +88,7 @@ export default function ProductDetails() {
           ariaLabel="grid-loading"
           radius="12.5"
           wrapperStyle={{}}
-          wrapperClass="grid-wrapper"
+          wrapperClass=""
         />
       ) : null}
       {product && (
@@ -143,14 +142,14 @@ export default function ProductDetails() {
             <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
               <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                 <img
-                  src={product.images[0]}
+                  src={product.images[1]}
                   alt={product.title}
                   className="h-full w-full object-cover object-center"
                 />
               </div>
               <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                 <img
-                  src={product.images[0]}
+                  src={product.images[2]}
                   alt={product.title}
                   className="h-full w-full object-cover object-center"
                 />
@@ -158,7 +157,7 @@ export default function ProductDetails() {
             </div>
             <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
               <img
-                src={product.images[0]}
+                src={product.images[3]}
                 s
                 alt={product.title}
                 className="h-full w-full object-cover object-center"
