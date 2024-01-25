@@ -55,6 +55,7 @@ export default function ProductDetails() {
   const params = useParams();
   const alert = useAlert();
   const status = useSelector(selectProductListStatus);
+  console.log(product.deleted);
 
   const handleCart = (e) => {
     e.preventDefault();

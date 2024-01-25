@@ -5,21 +5,23 @@ import {
   clearSelectedProduct,
   createProductAsync,
   fetchProductByIdAsync,
-  selectALlBrands,
-  selectALlCategories,
+  selectAllBrands,
+  selectAllCategories,
   selectProductById,
   updateProductAsync,
 } from "../../product/productSlice";
 import { useParams } from "react-router-dom";
 import Modal from "../../../features/common/Modal";
+import { useAlert } from "react-alert";
 
 const ProductForm = () => {
-  const brands = useSelector(selectALlBrands);
-  const categories = useSelector(selectALlCategories);
+  const brands = useSelector(selectAllBrands);
+  const categories = useSelector(selectAllCategories);
   const dispatch = useDispatch();
   const params = useParams();
   const selectedProduct = useSelector(selectProductById);
   const [openModal, setOpenModal] = useState(null);
+  const alert = useAlert();
 
   const {
     register,
@@ -86,11 +88,13 @@ const ProductForm = () => {
             product.id = params.id;
             product.rating = selectedProduct.rating || 0;
             dispatch(updateProductAsync(product));
+            alert.success("Product Updated successfully");
             reset();
           } else {
             dispatch(createProductAsync(product));
-            reset();
+            alert.success("Product Created successfully");
             //TODO: on product successfully added clear fields and show a message
+            reset();
           }
         })}
       >
@@ -101,7 +105,7 @@ const ProductForm = () => {
             </h2>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              {selectedProduct.deleted && (
+              {selectedProduct && selectedProduct.deleted && (
                 <h1 className="text-red-500 sm:grid-cols-6">
                   This product is deleted
                 </h1>
@@ -698,15 +702,17 @@ const ProductForm = () => {
           </button>
         </div>
       </form>
-      <Modal
-        title={`Delete ${selectedProduct.title}`}
-        message="Are you sure want to delete this Product ?"
-        dangerOption="Delete"
-        cancelOption="Cancel"
-        dangerAction={handleDelete}
-        cancelAction={() => setOpenModal(null)}
-        showModal={openModal}
-      ></Modal>
+      {selectedProduct && (
+        <Modal
+          title={`Delete ${selectedProduct.title}`}
+          message="Are you sure want to delete this Product ?"
+          dangerOption="Delete"
+          cancelOption="Cancel"
+          dangerAction={handleDelete}
+          cancelAction={() => setOpenModal(null)}
+          showModal={openModal}
+        ></Modal>
+      )}
     </>
   );
 };

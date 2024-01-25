@@ -24,15 +24,15 @@ export function updateOrder(order) {
   });
 }
 
-export function fetchAllOrders(sort) {
+export function fetchAllOrders(sort, pagination) {
   let queryString = "";
 
   for (let key in sort) {
     queryString += `${key}=${sort[key]}&`;
   }
-  // for (let key in pagination) {
-  //   queryString += `${key}=${pagination[key]}&`;
-  // }
+  for (let key in pagination) {
+    queryString += `${key}=${pagination[key]}&`;
+  }
 
   return new Promise(async (resolve) => {
     // TODO: we will bot hard code server URL here

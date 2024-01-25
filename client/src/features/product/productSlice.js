@@ -18,14 +18,6 @@ const initialState = {
   selectedProduct: null,
 };
 
-export const fetchAllProductAsync = createAsyncThunk(
-  "product/fetchAllProducts",
-  async () => {
-    const response = await fetchAllProducts();
-    return response.data;
-  }
-);
-
 export const fetchProductByIdAsync = createAsyncThunk(
   "product/fetchProductById",
   async (id) => {
@@ -36,8 +28,13 @@ export const fetchProductByIdAsync = createAsyncThunk(
 
 export const fetchProductsByFiltersAsync = createAsyncThunk(
   "product/fetchProductsByFilters",
-  async ({ filter, sort, pagination }) => {
-    const response = await fetchProductsByFilters(filter, sort, pagination);
+  async ({ filter, sort, pagination, admin }) => {
+    const response = await fetchProductsByFilters(
+      filter,
+      sort,
+      pagination,
+      admin
+    );
     return response.data;
   }
 );
@@ -86,13 +83,6 @@ export const productSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllProductAsync.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchAllProductAsync.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.products = action.payload;
-      })
       .addCase(fetchProductsByFiltersAsync.pending, (state) => {
         state.status = "loading";
       })
@@ -145,9 +135,9 @@ export const productSlice = createSlice({
 
 export const { clearSelectedProduct } = productSlice.actions;
 
-export const selectALlProducts = (state) => state.product.products;
-export const selectALlBrands = (state) => state.product.brands;
-export const selectALlCategories = (state) => state.product.categories;
+export const selectAllProducts = (state) => state.product.products;
+export const selectAllBrands = (state) => state.product.brands;
+export const selectAllCategories = (state) => state.product.categories;
 export const selectProductById = (state) => state.product.selectedProduct;
 export const selectTotalItems = (state) => state.product.totalItems;
 export const selectProductListStatus = (state) => state.product.status;

@@ -5,9 +5,9 @@ import {
   fetchBrandsAsync,
   fetchCategoriesAsync,
   fetchProductsByFiltersAsync,
-  selectALlBrands,
-  selectALlCategories,
-  selectALlProducts,
+  selectAllBrands,
+  selectAllCategories,
+  selectAllProducts,
   selectProductListStatus,
   selectTotalItems,
 } from "../productSlice";
@@ -44,9 +44,9 @@ export default function ProductList() {
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
   const dispatch = useDispatch();
-  const products = useSelector(selectALlProducts);
-  const brands = useSelector(selectALlBrands);
-  const categories = useSelector(selectALlCategories);
+  const products = useSelector(selectAllProducts);
+  const brands = useSelector(selectAllBrands);
+  const categories = useSelector(selectAllCategories);
   const totalItems = useSelector(selectTotalItems);
   const [page, setPage] = useState(1);
   const status = useSelector(selectProductListStatus);
@@ -546,11 +546,7 @@ function ProductGrid({ products, status }) {
                       <p className="text-sm text-red-400">Product Deleted</p>
                     </div>
                   )}
-                  {product.stock <= 0 && (
-                    <div>
-                      <p className="text-sm text-red-400">Out of stock</p>
-                    </div>
-                  )}
+                  c
                 </div>
               </Link>
             ))}

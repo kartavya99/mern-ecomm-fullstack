@@ -3,8 +3,8 @@ const { User } = require("../model/User");
 exports.createUser = async (req, res) => {
   const user = new User(req.body);
   try {
-    const user = await user.save();
-    res.status(201).json({ id: user.id, role: user.role });
+    const doc = await user.save();
+    res.status(201).json({ id: doc.id, role: doc.role });
   } catch (err) {
     res.status(400).json(err);
   }

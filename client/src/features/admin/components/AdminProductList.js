@@ -4,9 +4,9 @@ import {
   fetchBrandsAsync,
   fetchCategoriesAsync,
   fetchProductsByFiltersAsync,
-  selectALlBrands,
-  selectALlCategories,
-  selectALlProducts,
+  selectAllBrands,
+  selectAllCategories,
+  selectAllProducts,
   selectTotalItems,
 } from "../../product/productSlice";
 import { Link } from "react-router-dom";
@@ -41,9 +41,9 @@ export default function AdminProductList() {
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
   const dispatch = useDispatch();
-  const products = useSelector(selectALlProducts);
-  const brands = useSelector(selectALlBrands);
-  const categories = useSelector(selectALlCategories);
+  const products = useSelector(selectAllProducts);
+  const brands = useSelector(selectAllBrands);
+  const categories = useSelector(selectAllCategories);
   const totalItems = useSelector(selectTotalItems);
   const [page, setPage] = useState(1);
 
@@ -94,7 +94,9 @@ export default function AdminProductList() {
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFiltersAsync({ filter, sort, pagination }));
+    dispatch(
+      fetchProductsByFiltersAsync({ filter, sort, pagination, admin: true })
+    );
   }, [dispatch, filter, sort, page]);
 
   useEffect(() => {
@@ -542,6 +544,11 @@ function ProductGrid({ products }) {
                     {product.deleted && (
                       <div>
                         <p className="text-sm text-red-400">Product Deleted</p>
+                      </div>
+                    )}
+                    {product.stock <= 0 && (
+                      <div>
+                        <p className="text-sm text-red-400">Out of stock</p>
                       </div>
                     )}
                   </div>
