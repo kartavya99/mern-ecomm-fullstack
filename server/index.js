@@ -8,9 +8,10 @@ const crypto = require("crypto");
 const LocalStrategy = require("passport-local").Strategy;
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
+const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 
-const { isAuth, sanitizeUser } = require("./services/common");
+const { isAuth, sanitizeUser, cookieExtractor } = require("./services/common");
 const { User } = require("./model/User");
 const productsRouter = require("./routes/Products");
 const brandsRouter = require("./routes/Brands");
@@ -22,13 +23,15 @@ const ordersRouter = require("./routes/Order");
 const { serialize } = require("v8");
 
 const SECRET_KEY = "SECRET_KEY";
-//KWT options
+//JWT options
+
 const opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = "SECRET_KEY"; // TODO: should not be done in code
 
 //middlewares
-
+server.use(express.static("build"));
+server.use(cookieParser());
 server.use(
   session({
     secret: "keyboard cat",
@@ -55,11 +58,14 @@ server.use("/orders", isAuth(), ordersRouter.router);
 // Passport Strategies
 passport.use(
   "local",
-
-  new LocalStrategy(async function (username, password, done) {
-    // by default passport uses username
+  // by default passport uses username
+  new LocalStrategy({ usernameField: "email" }, async function (
+    email,
+    password,
+    done
+  ) {
     try {
-      const user = await User.findOne({ email: username }).exec();
+      const user = await User.findOne({ email: email }).exec();
       if (!user) {
         done(null, false, { message: "invalid credentials" });
       }
@@ -74,7 +80,7 @@ passport.use(
             done(null, false, { message: "invalid credentials" });
           } else {
             const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
-            done(null, token); // this lines sends to serializer
+            done(null, { token }); // this lines sends to serializer
           }
         }
       );
@@ -89,7 +95,7 @@ passport.use(
   new JwtStrategy(opts, async function (jwt_payload, done) {
     // console.log({ jwt_payload });
     try {
-      const user = await User.findOne({ id: jwt_payload.sub });
+      const user = await User.findById(jwt_payload.id);
       if (user) {
         return done(null, sanitizeUser(user)); // this calls serializer
       } else {
@@ -102,7 +108,7 @@ passport.use(
 );
 // creates session variable req.user ob being called
 passport.serializeUser(function (user, cb) {
-  console.log("serialize", user);
+  // console.log("serialize", user);
   process.nextTick(function () {
     return cb(null, { id: user.id, role: user.role });
   });
@@ -111,7 +117,7 @@ passport.serializeUser(function (user, cb) {
 // this changes session variable req.user when called from authorized request
 
 passport.deserializeUser(function (user, cb) {
-  console.log("de-serialize", user);
+  // console.log("de-serialize", user);
 
   process.nextTick(function () {
     return cb(null, user);

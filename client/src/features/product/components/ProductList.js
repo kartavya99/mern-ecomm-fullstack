@@ -546,7 +546,6 @@ function ProductGrid({ products, status }) {
                       <p className="text-sm text-red-400">Product Deleted</p>
                     </div>
                   )}
-                  c
                 </div>
               </Link>
             ))}
