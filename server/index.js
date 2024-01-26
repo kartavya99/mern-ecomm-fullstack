@@ -80,7 +80,7 @@ passport.use(
             done(null, false, { message: "invalid credentials" });
           } else {
             const token = jwt.sign(sanitizeUser(user), SECRET_KEY);
-            done(null, { token }); // this lines sends to serializer
+            done(null, { id: user.id, role: user.role }); // this lines sends to serializer
           }
         }
       );
@@ -93,7 +93,7 @@ passport.use(
 passport.use(
   "jwt",
   new JwtStrategy(opts, async function (jwt_payload, done) {
-    // console.log({ jwt_payload });
+    console.log({ jwt_payload });
     try {
       const user = await User.findById(jwt_payload.id);
       if (user) {

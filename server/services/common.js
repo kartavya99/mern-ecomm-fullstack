@@ -16,5 +16,6 @@ exports.cookieExtractor = function (req) {
   //TODO: this is temp token for testing without cookie
   token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YjMxMGVmZmUyNjE5YTAzODZmZDBiZiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwNjIzNDE2Mn0.TeiEMiwqp-dj1h9BZEsQP58KpiSVdBUW_SKKSqhhHTo";
+
   return token;
 };
