@@ -66,15 +66,18 @@ opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY; // TODO: should not be done in code
 
 //middlewares
-server.use(express.static(path.resolve(__dirname, "build")));
+// server.use(express.static(path.resolve(__dirname, "build")));
+// server.get("*", (req, res) =>
+//   res.sendFile(path.resolve("build", "index.html"))
+// );
 
 // if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname, "../client/build")));
+//   server.use(express.static(path.join(__dirname, "../client/build")));
 // }
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../client/build/index.html"));
-// });
+server.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 server.use(cookieParser());
 server.use(
