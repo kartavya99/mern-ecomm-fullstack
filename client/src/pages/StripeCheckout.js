@@ -12,7 +12,9 @@ import { selectCurrentOrder } from "../features/order/orderSlice";
 // This is a public sample test API key.
 // Don’t submit any personally identifiable information in requests made with this key.
 // Sign in to see your own test API key embedded in code samples.
-const stripePromise = loadStripe("pk_test_L1f0e3XAzjsG7jtp4uN7L9ql");
+const stripePromise = loadStripe(
+  "pk_test_51OciovKTdMxGtnzuBC2ExB6VCpiEjDDdrJh1n8Nul63YbDYSJ4KZKyrSjhqa4lS1Q5VfoPxtgaOG6drpod5JKejS00YPqnpVYo"
+);
 
 export default function StripCheckout() {
   const [clientSecret, setClientSecret] = useState("");
