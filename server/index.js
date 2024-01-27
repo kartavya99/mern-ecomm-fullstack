@@ -67,9 +67,6 @@ opts.secretOrKey = process.env.JWT_SECRET_KEY; // TODO: should not be done in co
 
 //middlewares
 // server.use(express.static(path.resolve(__dirname, "build")));
-server.get("*", (req, res) =>
-  res.sendFile(path.resolve("build", "index.html"))
-);
 
 // if (process.env.NODE_ENV === "production") {
 //   server.use(express.static(path.join(__dirname, "../client/build")));
@@ -103,6 +100,10 @@ server.use("/users", isAuth(), usersRouter.router);
 server.use("/auth", authRouter.router);
 server.use("/cart", isAuth(), cartRouter.router);
 server.use("/orders", isAuth(), ordersRouter.router);
+
+server.get("*", (req, res) =>
+  res.sendFile(path.resolve("build", "index.html"))
+);
 
 // Passport Strategies
 passport.use(
