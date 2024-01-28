@@ -4,12 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "server": "node server/index.js",
+    "client": "cd ../client && npm start",
+    "start": "concurrently \"npm run server\" \"cd client && npm start\"",
+    "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm run start\"",
+    "install": "cd server && npm i && cd ../client && npm i --production=false",
+    "build": "cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "react-hook-form": "^7.49.3"
   }
 }
