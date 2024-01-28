@@ -26,15 +26,10 @@ export default function StripCheckout() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ totalAmount: currentOrder.totalAmount }),
-      meta: {
-        order_id: currentOrder.id,
-        // this info will go to stripe => and then to webhook
-        // so we can conclude that payment was successful, even if client closes window after payment
-      },
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
-  }, []);
+  }, [currentOrder.totalAmount]);
 
   const appearance = {
     theme: "stripe",
