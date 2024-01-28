@@ -121,7 +121,7 @@ passport.use(
     try {
       const user = await User.findOne({ email: email }).exec();
       if (!user) {
-        done(null, false, { message: "invalid credentials" });
+        return done(null, false, { message: "invalid credentials" });
       }
       crypto.pbkdf2(
         password,
